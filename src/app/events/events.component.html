@@ -1,0 +1,32 @@
+<div class="container-fluid mt-3">
+  <div class="row justify-content-center m-2">
+    <div class="col-auto">
+      <input class="form-control" [disabled]="!showData" [max]="dateFilterEndDate" type="date"
+        [(ngModel)]="dateFilterStartDate" (change)="onDateChange()" />
+    </div>
+    <div class="col-auto">
+      <input class="form-control" [disabled]="!showData" [min]="dateFilterStartDate" [max]="dateFilterEndDate"
+        type="date" [(ngModel)]="dateFilterEndDate" (change)="onDateChange()" />
+    </div>
+  </div> 
+
+  <ejs-gantt *ngIf="showData else loading" #ganttObject height="1000px" [dataSource]="userEventsData"
+    [taskFields]="taskSettings" [rowHeight]="50" [allowFiltering]="true" [allowSorting]="true" [columns]="columns"
+    [collapseAllParentTasks]="true" [enableMultiTaskbar]="true" [resources]="resources" viewType="ResourceView"
+    [resourceFields]="resourceFields" [tooltipSettings]="tooltipSettings" (queryTaskbarInfo)="queryTaskbarInfo($event)">
+    <ng-template #tooltipSettingsTaskbar let-data>
+      <div>
+        <ng-container>{{ customTooltip(data) }}</ng-container>
+      </div>
+    </ng-template>
+  </ejs-gantt>
+</div>
+
+
+<ng-template #loading>
+  <div class="loader">
+  </div>
+  <h2 class="text-center">
+    Loading...
+  </h2>
+</ng-template>
